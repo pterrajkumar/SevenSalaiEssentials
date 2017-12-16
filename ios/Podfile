@@ -1,0 +1,13 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '8.0'
+
+target 'SevenSalaiEssentials' do
+    react_native_path = "../node_modules/react-native"
+    pod 'yoga', :path => "#{react_native_path}/ReactCommon/yoga"
+    pod 'React', :path =>  react_native_path
+    
+    pod 'GoogleMaps'
+    pod 'GooglePlaces'
+    pod 'GooglePlacePicker'
+end
