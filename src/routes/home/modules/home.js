@@ -4,6 +4,9 @@ import { Dimensions } from "react-native";
 import RNGooglePlaces from "react-native-google-places";
 
 import request from "../../../util/request";
+import calculatorFare from "../../../util/farecalculator";
+import { setTimeout } from "timers";
+
 //-------------
 //Constants
 //-------------
@@ -13,7 +16,8 @@ const {
     TOGGLE_SEARCH_RESULT,
     GET_ADDRESS_PREDICTIONS,
     GET_SELECTED_ADDRESS,
-    GET_DISTANCE_MATRIX 
+    GET_DISTANCE_MATRIX,
+    GET_FARE 
 } = constants;
 
 const { width, height } = Dimensions.get("window");
@@ -75,6 +79,12 @@ export function getAddressPredictions(){
 
 //GET SELECTED ADDRESS
 export function getSelectedAddress(payload){
+    const dummyNumbers = {
+        baseFare:0.4,
+        timeRate:0.14,
+        distanceRate:0.97,
+        surge:1
+    }
     return(dispatch, store)=>{
         RNGooglePlaces.lookUpPlaceByID(payload)
         .then((results)=>{
@@ -99,6 +109,22 @@ export function getSelectedAddress(payload){
                     });
                 })
             }
+            setTimeout(function(){
+                if(store().home.selectedAddress.selectedPickUp && store().home.selectedAddress.selectedDropOff){
+                    const fare = calculateFare(
+                        dummyNumbers.baseFare,
+                        dummyNumbers.timeRate,
+                        store().home.distanceMatrix.rows[0].elements[0].duration.value,
+                        dummyNumbers.distanceRate,
+                        store().home.distanceMatrix.rows[0].elements[0].distance.value,
+                        dummyNumbers.surge
+                    );
+                    dispatch({
+                        type:GET_FARE,
+                        payload: fare
+                    })
+                }
+            }, 1000)
         })
         .catch((error) => console.log(error));
     };
@@ -207,13 +233,22 @@ function handleGetDistanceMatrix(state, action){
     })
 }
 
+function handleGetFare(state, action){
+    return update(state, {
+        fare:{
+            $set:action.payload
+        }
+    })
+}
+
 const ACTION_HANDLER = {
     GET_CURRENT_LOCATION: handleGetCurrentLocation,
     GET_INPUT: handleGetInputData,
     TOGGLE_SEARCH_RESULT: handleToggleSearchResult,
     GET_ADDRESS_PREDICTIONS: handleGetAddressPredictions,
     GET_SELECTED_ADDRESS: handleGetSelectedAddress,
-    GET_DISTANCE_MATRIX: handleGetDistanceMatrix
+    GET_DISTANCE_MATRIX: handleGetDistanceMatrix,
+    GET_FARE: handleGetFare
 
 };
 const initialState = {
