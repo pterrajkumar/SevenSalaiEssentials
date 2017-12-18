@@ -4,7 +4,9 @@ import { Container } from "native-base";
 import MapContainer from "./map_container";
 import HeaderComponent from "../../../components/header_component";
 import FooterComponent from "../../../components/footer_component";
+import Fare from "./fare";
 const localDrinkLogo = require("../../../assets/images/ic_local_drink_white_3x.png");
+
 class Home extends React.Component {
     componentDidMount(){
         this.props.getCurrentLocation();
@@ -31,6 +33,10 @@ class Home extends React.Component {
                         getSelectedAddress={this.props.getSelectedAddress}
                         selectedAddress={this.props.selectedAddress} 
                     />
+                }
+                {
+                    this.props.fare && 
+                    <Fare fare={this.props.fare}/> 
                 }
                 <FooterComponent />
             </Container>
