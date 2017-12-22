@@ -9,22 +9,22 @@ export const FooterComponent = ({logo}) => {
     const tabs = [{
         title:"MilkNormal",
         subTitle:"",
-        icon:""
+        icon:"music"
     },
     {
         title:"MilkFatControl",
         subTitle:"",
-        icon:""
+        icon:"music"
     },
     {
         title:"MilkPremium",
         subTitle:"",
-        icon:""
+        icon:"music"
     },
     {
         title:"MilkExcellent",
         subTitle:"",
-        icon:""
+        icon:"music"
     }];
     return (
         <Footer>

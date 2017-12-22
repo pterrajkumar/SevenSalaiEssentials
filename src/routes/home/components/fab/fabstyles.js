@@ -32,4 +32,6 @@ const styles = {
         fontWeight:"bold",
         fontSize:12
     }
-}
+};
+
+export default styles;

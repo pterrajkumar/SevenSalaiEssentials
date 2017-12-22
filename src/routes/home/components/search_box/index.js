@@ -8,6 +8,8 @@ import styles from "./searchboxstyles";
 export const SearchBox = ({getInputData, toggleSearchResultsModal, getAddressPredictions, selectedAddress}) => {
     const { selectedPickUp, selectedDropOff } = selectedAddress || {};
     function handleInput(key, val){
+        console.log(key);
+        console.log(val);
         getInputData({
             key,
             value:val

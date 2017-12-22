@@ -27,7 +27,7 @@ export const MapContainer = ({region, getInputData, toggleSearchResultsModal, ge
                 selectedAddress={selectedAddress} 
             />
             {
-                resultTypes.pickUp || resultTypes.dropOff && 
+                (resultTypes.pickUp || resultTypes.dropOff) && 
                 <SearchResults predictions={predictions} getSelectedAddress={getSelectedAddress} />
             }
         </View>

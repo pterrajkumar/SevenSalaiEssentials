@@ -7,7 +7,7 @@ import styles from "./farestyles";
 const Fare = ({fare})=>{
     return (
         <View style={styles.fareContainer}>
-            <Text style={styles.fareText}> FARE: RM</Text>
+            <Text style={styles.fareText}> FARE: Rs </Text>
             <Text style={styles.amount}>{fare}</Text>
         </View>
     );

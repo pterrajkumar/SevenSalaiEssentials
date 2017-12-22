@@ -4,7 +4,7 @@ import { Dimensions } from "react-native";
 import RNGooglePlaces from "react-native-google-places";
 
 import request from "../../../util/request";
-import calculatorFare from "../../../util/farecalculator";
+import calculateFare from "../../../util/farecalculator";
 //import { setTimeout } from "timers";
 
 //-------------
@@ -50,10 +50,10 @@ export function getInputData(payload){
     }
 }
 
-export function toggleSearchResultsModal(payLoad){
+export function toggleSearchResultsModal(payload){
     return{
         type:TOGGLE_SEARCH_RESULT,
-        payLoad
+        payload
     }
 }
 
@@ -98,8 +98,8 @@ export function getSelectedAddress(payload){
             if(store().home.selectedAddress.selectedPickUp && store().home.selectedAddress.selectedDropOff){
                 request.get("https://maps.google.com/maps/api/distancematrix/json")
                 .query({
-                    origins:store().home.selectedAddress.selectedPickUp.latitude + "," + store().selectedAddress.selectedPickUp.longitude,
-                    destinations:store().home.selectedAddress.selectedDropOff.latitude + "," + store().selectedAddress.selectedDropOff.longitude,
+                    origins:store().home.selectedAddress.selectedPickUp.latitude + "," + store().home.selectedAddress.selectedPickUp.longitude,
+                    destinations:store().home.selectedAddress.selectedDropOff.latitude + "," + store().home.selectedAddress.selectedDropOff.longitude,
                     mode:"driving",
                     key:"AIzaSyBu2szrR4-qMa9xsS203c-NGDEY1O8yB_0"
                 })
@@ -158,7 +158,7 @@ export function bookDairy(){
         .finish((error, res)=>{
             dispatch({
                 type:BOOK_DAIRY,
-                payload:res.body
+                payload:{}//res.body
             });
         });
     };
