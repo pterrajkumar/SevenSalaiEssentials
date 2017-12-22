@@ -5,6 +5,7 @@ import MapContainer from "./map_container";
 import HeaderComponent from "../../../components/header_component";
 import FooterComponent from "../../../components/footer_component";
 import Fare from "./fare";
+import Fab from "./fab";
 const localDrinkLogo = require("../../../assets/images/ic_local_drink_white_3x.png");
 
 class Home extends React.Component {
@@ -33,6 +34,9 @@ class Home extends React.Component {
                         getSelectedAddress={this.props.getSelectedAddress}
                         selectedAddress={this.props.selectedAddress} 
                     />
+                }
+                {
+                    <Fab onPressAction={()=>this.props.bookDairy()}/>
                 }
                 {
                     this.props.fare && 

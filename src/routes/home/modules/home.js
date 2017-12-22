@@ -5,7 +5,7 @@ import RNGooglePlaces from "react-native-google-places";
 
 import request from "../../../util/request";
 import calculatorFare from "../../../util/farecalculator";
-import { setTimeout } from "timers";
+//import { setTimeout } from "timers";
 
 //-------------
 //Constants
@@ -17,7 +17,8 @@ const {
     GET_ADDRESS_PREDICTIONS,
     GET_SELECTED_ADDRESS,
     GET_DISTANCE_MATRIX,
-    GET_FARE 
+    GET_FARE,
+    BOOK_DAIRY
 } = constants;
 
 const { width, height } = Dimensions.get("window");
@@ -130,6 +131,39 @@ export function getSelectedAddress(payload){
     };
 }
 
+//BOOK DIARY
+export function bookDairy(){
+    return (dispatch, store) => {
+        const payload = {
+            data:{
+                userName:"adminuser",
+                pickUp:{
+                    address:store().home.selectedAddress.selectedPickUp.address,
+                    name:store().home.selectedAddress.selectedPickUp.name,
+                    latitude:store().home.selectedAddress.selectedPickUp.latitude,
+                    longitude:store().home.selectedAddress.selectedPickUp.longitude,
+                },
+                dropOff:{
+                    address:store().home.selectedAddress.selectedDropOff.address,
+                    name:store().home.selectedAddress.selectedDropOff.name,
+                    latitude:store().home.selectedAddress.selectedDropOff.latitude,
+                    longitude:store().home.selectedAddress.selectedDropOff.longitude,
+                },
+                fare:store().home.fare,
+                status:"pending"
+            }
+        };
+        request.post("")
+        .send(payload)
+        .finish((error, res)=>{
+            dispatch({
+                type:BOOK_DAIRY,
+                payload:res.body
+            });
+        });
+    };
+}
+
 //---------------
 //Action Handlers
 //---------------
@@ -165,7 +199,7 @@ function handleGetInputData(state, action){
 }
 
 function handleToggleSearchResult(state, action){
-    if(action.payLoad === "pickUp"){
+    if(action.payload === "pickUp"){
         return update(state, {
             resultTypes:{
                 pickUp:{
@@ -180,7 +214,7 @@ function handleToggleSearchResult(state, action){
             }
         });
     }
-    if(action.payLoad === "dropOff"){
+    if(action.payload === "dropOff"){
         return update(state, {
             resultTypes:{
                 pickUp:{
@@ -241,6 +275,15 @@ function handleGetFare(state, action){
     })
 }
 
+//handle Book Dairy
+function handleBookDairy(state, action){
+    return update(state, {
+        booking:{
+            $set:action.payload
+        }
+    })
+}
+
 const ACTION_HANDLER = {
     GET_CURRENT_LOCATION: handleGetCurrentLocation,
     GET_INPUT: handleGetInputData,
@@ -248,7 +291,8 @@ const ACTION_HANDLER = {
     GET_ADDRESS_PREDICTIONS: handleGetAddressPredictions,
     GET_SELECTED_ADDRESS: handleGetSelectedAddress,
     GET_DISTANCE_MATRIX: handleGetDistanceMatrix,
-    GET_FARE: handleGetFare
+    GET_FARE: handleGetFare,
+    BOOK_DAIRY: handleBookDairy
 
 };
 const initialState = {

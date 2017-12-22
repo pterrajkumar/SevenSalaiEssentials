@@ -5,7 +5,8 @@ import {
     getInputData, 
     toggleSearchResultsModal,
     getAddressPredictions,
-    getSelectedAddress
+    getSelectedAddress,
+    bookDairy
 } from "../modules/home";
 
 const  mapStateToProps = (state) => ({
@@ -14,14 +15,16 @@ const  mapStateToProps = (state) => ({
     resultTypes: state.home.resultTypes || {},
     predictions: state.home.predictions || [],
     selectedAddress:state.home.selectedAddress || {},
-    fare:state.home.fare
+    fare:state.home.fare,
+    booking:state.home.booking || {}
 });
 const mapActionCreators = {
     getCurrentLocation,
     getInputData,
     toggleSearchResultsModal,
     getAddressPredictions,
-    getSelectedAddress
+    getSelectedAddress,
+    bookDairy
 };
 
 export default connect(mapStateToProps, mapActionCreators)(home);
