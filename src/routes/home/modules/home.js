@@ -153,12 +153,12 @@ export function bookDairy(){
                 status:"pending"
             }
         };
-        request.post("")
+        request.post("http://localhost:3000/api/bookings")
         .send(payload)
         .finish((error, res)=>{
             dispatch({
                 type:BOOK_DAIRY,
-                payload:{}//res.body
+                payload:res.body
             });
         });
     };
